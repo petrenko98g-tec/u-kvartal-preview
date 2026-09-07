@@ -470,6 +470,8 @@ function ukZoomInVideo(el){
     el.style.setProperty('--uk-vh', r.height + 'px');
     el.classList.add('uk-video-zoomed');
     backdrop.classList.add('active');
+    backdrop.style.background = 'rgba(0,0,0,.7)';
+    backdrop.style.pointerEvents = 'auto';
     if(video){ video.muted = false; video.volume = 1; video.play && video.play().catch(function(){}); }
 }
 function ukZoomOutVideo(el){
@@ -479,6 +481,8 @@ function ukZoomOutVideo(el){
     var zone = document.getElementById('uk-video-hover-zone');
     el.classList.remove('uk-video-zoomed');
     backdrop.classList.remove('active');
+    backdrop.style.background = 'rgba(0,0,0,0)';
+    backdrop.style.pointerEvents = 'none';
     if(zone){ zone.style.height = ''; }
     if(video){ video.muted = true; }
 }
