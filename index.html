@@ -676,6 +676,24 @@ function ukDisablePreloaderHitTesting(){
         if(el) el.style.pointerEvents = 'none';
     });
 }
+function ukFallbackHeroReveal(){
+    if(window.ukHeroRevealed) return;
+    window.ukHeroRevealed = true;
+    var targets = document.querySelectorAll('#uk-address [data-animate-text], h1.h1 [data-animate-text]');
+    if(!targets.length) return;
+    targets.forEach(function(el, i){
+        el.style.transition = 'none';
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+    });
+    void document.body.offsetHeight;
+    targets.forEach(function(el, i){
+        el.style.transition = 'opacity .7s cubic-bezier(0.23,1,0.32,1) ' + (i*0.09) + 's, transform .7s cubic-bezier(0.23,1,0.32,1) ' + (i*0.09) + 's';
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+    });
+}
+setTimeout(ukFallbackHeroReveal, 2600);
 if(document.readyState === 'complete'){
     setTimeout(ukLoadDeferredVideos, 1200);
     setTimeout(ukDisablePreloaderHitTesting, 3000);
