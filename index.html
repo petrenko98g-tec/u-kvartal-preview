@@ -74,14 +74,12 @@ header.fixed{transform:translateZ(0);-webkit-transform:translateZ(0);will-change
 .dot-menu{justify-content:flex-end!important;gap:20rem!important}
 .uk-cta-btn:hover{transform:scale(1.06)}
 @media (max-width: 649px){#uk-btn-life,#uk-btn-invest{padding:1.2rem 1.8rem!important;font-size:1.7rem!important;gap:.5rem!important}}
-.uk-video-zoomed{position:fixed!important;left:var(--uk-vx)!important;top:var(--uk-vy)!important;width:var(--uk-vw)!important;height:var(--uk-vh)!important;transform:translate(-50%,-50%) scale(2)!important;z-index:9999!important;transition:transform .4s ease;box-shadow:0 20px 60px rgba(0,0,0,.4)}
-@media (max-width: 649px){.uk-video-zoomed{transform:translate(-50%,-50%) scale(1.15)!important}}
-#uk-video-backdrop.active{background:rgba(0,0,0,.7)!important;pointer-events:auto!important}
+#uk-video-wrap{transition:transform .4s ease;z-index:2}
+#uk-video-wrap.uk-video-zoomed{transform:scale(1.06);box-shadow:0 20px 60px rgba(0,0,0,.4);z-index:20}
 .mobile-menu{pointer-events:none!important}
 body.menu-open .mobile-menu{pointer-events:auto!important}
 @media (min-width: 650px) and (max-width: 1279px){:root{--size:1150!important}.dot-menu{gap:10rem!important}#uk-address{font-size:4.79655rem!important}.mobile-menu .text-40{font-size:5.2rem!important}}
 @media (min-width: 650px){.uk-love-gap{margin-left:0.3em}}
-#uk-address>[data-animate-text],h1.h1 [data-animate-text]{opacity:0;transform:translateY(30px)}
 .js-header .site-logo:first-child{align-self:flex-start!important}
 .js-header .site-logo:first-child a{width:4.25rem!important}
 @media (min-width: 650px){
@@ -333,7 +331,6 @@ body.menu-open .mobile-menu{pointer-events:auto!important}
                                     
 
 
-<div id="uk-video-backdrop" onclick="ukZoomOutVideo(document.getElementById('uk-video-wrap'))" style="position:fixed;inset:0;background:rgba(0,0,0,0);pointer-events:none;z-index:9998;transition:background .4s ease"></div>
 <section id="intro" class="bg-white overflow-hidden py-30 relative pb-200 s:pb-380" data-component="split(js-split)">
 
 
@@ -459,31 +456,14 @@ if(document.readyState === 'complete'){
 }
 function ukZoomInVideo(el){
     if(!el || el.classList.contains('uk-video-zoomed')) return;
-    var backdrop = document.getElementById('uk-video-backdrop');
     var video = document.getElementById('uk-video-iframe');
-    var zone = document.getElementById('uk-video-hover-zone');
-    var r = el.getBoundingClientRect();
-    if(zone){ zone.style.height = zone.getBoundingClientRect().height + 'px'; }
-    el.style.setProperty('--uk-vx', (r.left + r.width/2) + 'px');
-    el.style.setProperty('--uk-vy', (r.top + r.height/2) + 'px');
-    el.style.setProperty('--uk-vw', r.width + 'px');
-    el.style.setProperty('--uk-vh', r.height + 'px');
     el.classList.add('uk-video-zoomed');
-    backdrop.classList.add('active');
-    backdrop.style.background = 'rgba(0,0,0,.7)';
-    backdrop.style.pointerEvents = 'auto';
     if(video){ video.muted = false; video.volume = 1; video.play && video.play().catch(function(){}); }
 }
 function ukZoomOutVideo(el){
     if(!el || !el.classList.contains('uk-video-zoomed')) return;
-    var backdrop = document.getElementById('uk-video-backdrop');
     var video = document.getElementById('uk-video-iframe');
-    var zone = document.getElementById('uk-video-hover-zone');
     el.classList.remove('uk-video-zoomed');
-    backdrop.classList.remove('active');
-    backdrop.style.background = 'rgba(0,0,0,0)';
-    backdrop.style.pointerEvents = 'none';
-    if(zone){ zone.style.height = ''; }
     if(video){ video.muted = true; }
 }
 function ukToggleVideoZoom(el){
