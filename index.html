@@ -75,7 +75,8 @@ header.fixed{transform:translateZ(0);-webkit-transform:translateZ(0);will-change
 .uk-cta-btn:hover{transform:scale(1.06)}
 @media (max-width: 649px){#uk-btn-life,#uk-btn-invest{padding:1.2rem 1.8rem!important;font-size:1.7rem!important;gap:.5rem!important}}
 #uk-video-wrap{transition:transform .4s ease;z-index:2}
-#uk-video-wrap.uk-video-zoomed{transform:scale(1.06);box-shadow:0 20px 60px rgba(0,0,0,.4);z-index:20}
+#uk-video-wrap.uk-video-zoomed{transform:scale(1.15);box-shadow:0 20px 60px rgba(0,0,0,.4);z-index:20}
+@media (min-width: 650px){#uk-video-wrap.uk-video-zoomed{transform:scale(2)}}
 .mobile-menu{pointer-events:none!important}
 body.menu-open .mobile-menu{pointer-events:auto!important}
 @media (min-width: 650px) and (max-width: 1279px){:root{--size:1150!important}.dot-menu{gap:10rem!important}#uk-address{font-size:4.79655rem!important}.mobile-menu .text-40{font-size:5.2rem!important}}
@@ -348,6 +349,7 @@ body.menu-open .mobile-menu{pointer-events:auto!important}
 	<div id="uk-video-wrap" class="relative w-full h-full overflow-hidden" style="cursor:pointer">
 					<div class="aspect" style="--aspect: 66.66%"></div>
 				<video id="uk-video-iframe" data-uk-src="wp-content/uploads/u-kvartal/u-kvartal-intro.mp4" class="absolute top-0 left-0 size-full w-full h-full object-cover" style="pointer-events:none;transform:translateZ(0);-webkit-transform:translateZ(0);will-change:transform" preload="none" muted loop playsinline></video>
+				<button type="button" id="uk-sound-toggle" onclick="event.stopPropagation();ukToggleSound()" aria-label="Увімкнути звук" style="position:absolute;bottom:1rem;right:1rem;width:3.6rem;height:3.6rem;border-radius:100px;border:none;background:rgba(0,0,0,.55);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.8rem;cursor:pointer;z-index:5;transition:background .2s ease">🔇</button>
 	</div>
             </div>
 
@@ -456,15 +458,19 @@ if(document.readyState === 'complete'){
 }
 function ukZoomInVideo(el){
     if(!el || el.classList.contains('uk-video-zoomed')) return;
-    var video = document.getElementById('uk-video-iframe');
     el.classList.add('uk-video-zoomed');
-    if(video){ video.muted = false; video.volume = 1; }
 }
 function ukZoomOutVideo(el){
     if(!el || !el.classList.contains('uk-video-zoomed')) return;
-    var video = document.getElementById('uk-video-iframe');
     el.classList.remove('uk-video-zoomed');
-    if(video){ video.muted = true; }
+}
+function ukToggleSound(){
+    var video = document.getElementById('uk-video-iframe');
+    var btn = document.getElementById('uk-sound-toggle');
+    if(!video) return;
+    video.muted = !video.muted;
+    video.volume = 1;
+    if(btn){ btn.textContent = video.muted ? '🔇' : '🔊'; btn.setAttribute('aria-label', video.muted ? 'Увімкнути звук' : 'Вимкнути звук'); }
 }
 function ukToggleVideoZoom(el){
     if(!el) return;
