@@ -409,9 +409,9 @@ function ukSetupVideoVisibilityPausing(){
         entries.forEach(function(entry){
             var v = entry.target;
             if(entry.isIntersecting){ v.play && v.play().catch(function(){}); }
-            else { v.pause && v.pause(); }
+            else if(entry.intersectionRatio === 0){ v.pause && v.pause(); }
         });
-    }, {threshold: 0.01});
+    }, {threshold: 0, rootMargin: '200% 0px 200% 0px'});
     document.querySelectorAll('video').forEach(function(v){ io.observe(v); });
 }
 function ukLoadDeferredVideos(){
@@ -438,7 +438,7 @@ function ukHeroTextReveal(){
         el.style.transform = 'translateY(0)';
     });
 }
-setTimeout(ukHeroTextReveal, 2400);
+setTimeout(ukHeroTextReveal, 1400);
 if(document.readyState === 'complete'){
     setTimeout(ukLoadDeferredVideos, 1200);
     setTimeout(ukDisablePreloaderHitTesting, 3000);
