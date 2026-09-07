@@ -458,13 +458,19 @@ function ukZoomInVideo(el){
     if(!el || el.classList.contains('uk-video-zoomed')) return;
     var video = document.getElementById('uk-video-iframe');
     el.classList.add('uk-video-zoomed');
-    if(video){ video.muted = false; video.volume = 1; video.play && video.play().catch(function(){}); }
+    if(video){
+        video.removeAttribute('muted');
+        video.muted = false;
+        video.volume = 1;
+        var p = video.play();
+        if(p && p.then){ p.catch(function(){ video.muted = false; video.play(); }); }
+    }
 }
 function ukZoomOutVideo(el){
     if(!el || !el.classList.contains('uk-video-zoomed')) return;
     var video = document.getElementById('uk-video-iframe');
     el.classList.remove('uk-video-zoomed');
-    if(video){ video.muted = true; }
+    if(video){ video.muted = true; video.setAttribute('muted', ''); }
 }
 function ukToggleVideoZoom(el){
     if(!el) return;
