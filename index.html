@@ -2,6 +2,15 @@
 <html lang="en-US">
 
 <head itemscope>
+	<script>
+	(function(){
+		var types = ['wheel','touchstart','touchmove'];
+		types.forEach(function(type){
+			window.addEventListener(type, function(e){ e.stopImmediatePropagation(); }, {capture:true, passive:true});
+			document.addEventListener(type, function(e){ e.stopImmediatePropagation(); }, {capture:true, passive:true});
+		});
+	})();
+	</script>
 	<meta charset="UTF-8" />
 	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 	<meta http-equiv="Pragma" content="no-cache" />
